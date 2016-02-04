@@ -1,0 +1,100 @@
+#!/bin/bash
+
+###############################################################################
+### Configuration #############################################################
+###############################################################################
+
+NAME=iptables-report
+SCRIPT=/sbin/iptables
+
+TMP="$(mktemp -d)"
+
+trap "rm -rf $TMP" EXIT
+
+###############################################################################
+### main () ###################################################################
+###############################################################################
+
+if [[ ! -x $SCRIPT ]]; then
+    echo "3 $NAME - ERROR - iptables not found"
+    exit 3
+fi
+
+if [[ $EUID -ne 0 ]]; then
+    echo "3 $NAME - ERROR - not running as root"
+    exit 3
+fi
+
+$SCRIPT -L INPUT --verbose -n > $TMP/iptables.input
+
+if [[ $(/bin/egrep 'ACCEPT|REJECT' $TMP/iptables.input | wc -l) -lt 2 ]]; then
+    echo "2 $NAME - iptables are apparently not running"
+    exit 2
+fi
+
+if ! /bin/egrep -q "ACCEPT.*0.0.0.0/0.*0.0.0.0/0.*RELATED,ESTABLISHED" \
+    $TMP/iptables.input; then
+    echo "2 $NAME - not accepting related/established rules"
+    exit 2
+fi
+
+if ! /bin/egrep -q "ACCEPT.*udp.*sports 53" $TMP/iptables.input; then
+    echo "2 $NAME - not accepting dns"
+    exit 2
+fi
+
+for i in tcp udp; do
+    if ! tail -2 $TMP/iptables.input | /bin/egrep -q "REJECT.*$i.*0.0.0.0/0"; then
+        echo "2 $NAME - not default-close for $i"
+        exit 2
+    fi
+done
+
+echo "0 $NAME - iptables are apparently properly loaded"
+exit 0
+
+##############################################################################
+### Documentation ############################################################
+##############################################################################
+
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+iptables-report - confirm that iptables are running with some basic rules
+
+=head1 SYNOPSIS
+
+B</usr/sbin/iptables-report>
+
+=head1 USAGE
+
+This script tests to confirm that iptables is running in a vaguely appropriate
+manner for CMS and DCSO systems.  This means:
+
+   * Confirming that iptables are running at all
+   * Confirming that we are accepting related/established entries
+   * Confirming that we are accepting DNS over UDP
+   * Confirming that we close tcp and udp by default.
+
+The report is in check_mk style - that is, we return with an error code, and
+print a message that explains the current status.
+
+=head1 NOTES
+
+This script must be setuid.
+
+=head1 AUTHOR
+
+Tim Skirvin <tskirvin@fnal.gov>
+
+=head1 COPYRIGHT
+
+Copyright 2015, Fermi National Accelerator Laboratory
+
+This program is free software; you may redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
+__END_OF_DOCS__

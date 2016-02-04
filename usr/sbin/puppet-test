@@ -1,0 +1,129 @@
+#!/bin/bash
+# Wrapper for 'puppet agent -t'; see the documentation below.
+
+#########################################################################
+### Configuration #######################################################
+#########################################################################
+
+## Default values for parts of the puppet agent -t run
+DOIT="--noop"
+ENVIRONMENT=""
+SERVER=""
+
+#########################################################################
+### main () #############################################################
+#########################################################################
+
+## Parse command-line variables
+TEMP=`/usr/bin/getopt -n "$0" \
+    -o hs:e: \
+    --long help,man,doit,environment:,server: \
+    -- "$@"`
+
+if [ $? != 0 ] ; then
+    echo "getopt failed..." >&2 ;
+    exit -1
+fi
+
+eval set -- "$TEMP"
+
+while true; do
+    case "$1" in
+        -h|--help|--man)
+            exec pod2text $0
+            exit 0
+            ;;
+        --doit)
+            DOIT=""
+            shift
+            ;;
+        -e|--environment)
+            ENVIRONMENT="--environment $2"
+            shift 2
+            ;;
+        -s|--server)
+            SERVER="--server $2"
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "unknown argument: $1"
+            exec pod2text $0
+            exit -1
+    esac
+done
+
+if [ $# -ne 0 ] ; then # extra arguments
+    exec pod2text $0
+    exit -1
+fi
+
+echo puppet agent -t $ENVIRONMENT $SERVER $DOIT
+exec puppet agent -t $ENVIRONMENT $SERVER $DOIT
+
+#########################################################################
+### Documentation #######################################################
+#########################################################################
+
+# Documentation.  Use a hack to hide this from the shell.  Because of the
+# above exit line, this should never be executed.
+
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+puppet-test - wrapper for 'puppet agent -t'
+
+=head1 SYNOPSIS
+
+puppet-test
+
+puppet-test --environment I<environment>
+
+puppet-test --server I<server>
+
+puppet-test --environment I<environment> --doit
+
+=head1 DESCRIPTION
+
+puppet-test is a simple wrapper around I<puppet agent -t>
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--doit>
+
+Do not run with the B<--noop> flag.  Default is to keep the B<--noop>
+
+=item B<--environment> I<ENVIRONMENT>
+
+Run against a specific environment.  No default.
+
+=item B<--server> I<SERVER>
+
+Run against a specific server.  No default.
+
+=item B<--help>, B<--man>
+
+Print this help page.
+
+=back
+
+=head1 AUTHOR
+
+Tim Skirvin <tskirvin@fnal.gov>
+
+=head1 LICENSE
+
+Copyright 2014-2015, Fermi National Accelerator Laboratory
+
+This program is free software; you may redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
+__END_OF_DOCS__
