@@ -1,2 +1,3 @@
 # ecf-global
-ECF global rpm
+
+Scripts and tools that get installed on all ECF systems.
