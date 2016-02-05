@@ -32,6 +32,6 @@ TAR_EXCLUDE =
 all:		rpm-5-nosign rpm-6-nosign rpm-7-nosign rpm-sign
 confirm:	confirm-slf5 confirm-slf6 confirm-slf7
 copy:		copy-slf5 copy-slf6 copy-slf7
-rpm-sign:	sign-slf5 sign-slf6 sign-slf7
-test:		rpm-5-nosign rpm-6-nosign  rpm-7-nosign
+rpm-sign:	sign-slf6 sign-slf7
+test:		rpm-5-nosign rpm-6-nosign rpm-7-nosign
 deploy:		deploy-5 deploy-6 deploy-7
