@@ -75,21 +75,21 @@ DOCS=<<__END_OF_DOCS__
 
 =head1 NAME
 
-puppet-test - wrapper for 'puppet agent -t'
+puppet-dryrun - wrapper for 'puppet agent -t'
 
 =head1 SYNOPSIS
 
-puppet-test
+puppet-dryrun
 
-puppet-test --environment I<environment>
+puppet-dryrun --environment I<environment>
 
-puppet-test --server I<server>
+puppet-dryrun --server I<server>
 
-puppet-test --environment I<environment> --doit
+puppet-dryrun --environment I<environment> --doit
 
 =head1 DESCRIPTION
 
-puppet-test is a simple wrapper around I<puppet agent -t>
+puppet-dryrun is a simple wrapper around I<puppet agent -t>
 
 =head1 OPTIONS
 
@@ -119,7 +119,7 @@ Tim Skirvin <tskirvin@fnal.gov>
 
 =head1 LICENSE
 
-Copyright 2014-2015, Fermi National Accelerator Laboratory
+Copyright 2014-2016, Fermi National Accelerator Laboratory
 
 This program is free software; you may redistribute it and/or modify it
 under the same terms as Perl itself.

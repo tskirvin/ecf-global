@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.0
+Version:        1.0.1
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -15,8 +15,7 @@ Requires:       python-simplejson
 Source:         ecf-global-%{version}-%{release}.tar.gz
 
 %description
-[...]
-standardize building RPMs for the ECF-SSI group at Fermilab.
+Globally installed scripts and tools for ECF systems at Fermi Lab.
 
 %prep
 %setup -c -n ecf-global -q
@@ -54,7 +53,12 @@ fi
 %attr(-, root, root) %{_bindir}/*
 %attr(-, root, root) %{_sbindir}/*
 %attr(-, root, root) %{_mandir}/*/*
+%attr(-, root, root) %{_libexecdir}/ecf-global/*
 
 %changelog
-* Thu Feb  4 2015  Tim Skirvin <tskirvin@fnal.gov>  1.0.0-0
+* Fri Feb  5 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.1-0
+- renamed puppet-test to puppet-dryrun
+- moved iptables-report to /usr/libexec
+
+* Thu Feb  4 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.0-0
 - initial version
