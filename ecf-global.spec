@@ -1,11 +1,11 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.1
+Version:        1.0.2
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
-License:        Fermitools Software Legal Information (Modified BSD License)
+License:        Artistic 2.0
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
@@ -50,12 +50,14 @@ fi
 # nothing to clean up as there is no build process
 
 %files
-%attr(-, root, root) %{_bindir}/*
 %attr(-, root, root) %{_sbindir}/*
 %attr(-, root, root) %{_mandir}/*/*
 %attr(-, root, root) %{_libexecdir}/ecf-global/*
 
 %changelog
+* Fri Feb  5 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.2-0
+- giving up on python-compat
+
 * Fri Feb  5 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.1-0
 - renamed puppet-test to puppet-dryrun
 - moved iptables-report to /usr/libexec
