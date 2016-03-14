@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.2
+Version:        1.0.3
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -55,6 +55,9 @@ fi
 %attr(-, root, root) %{_libexecdir}/ecf-global/*
 
 %changelog
+* Mon Mar 14 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.3-0
+- puppet-dryrun - added 'tags'
+
 * Fri Feb  5 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.2-0
 - giving up on python-compat
 

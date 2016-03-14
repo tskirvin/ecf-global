@@ -7,8 +7,7 @@
 
 ## Default values for parts of the puppet agent -t run
 DOIT="--noop"
-ENVIRONMENT=""
-SERVER=""
+EXTRA=""
 
 #########################################################################
 ### main () #############################################################
@@ -17,7 +16,7 @@ SERVER=""
 ## Parse command-line variables
 TEMP=`/usr/bin/getopt -n "$0" \
     -o hs:e: \
-    --long help,man,doit,environment:,server: \
+    --long help,man,doit,environment:,server:,tags: \
     -- "$@"`
 
 if [ $? != 0 ] ; then
@@ -38,11 +37,15 @@ while true; do
             shift
             ;;
         -e|--environment)
-            ENVIRONMENT="--environment $2"
+            EXTRA="${EXTRA} --environment $2"
             shift 2
             ;;
         -s|--server)
-            SERVER="--server $2"
+            EXTRA="${EXTRA} --server $2"
+            shift 2
+            ;;
+        --tags)
+            EXTRA="${EXTRA} --tags $2"
             shift 2
             ;;
         --)
@@ -61,8 +64,8 @@ if [ $# -ne 0 ] ; then # extra arguments
     exit -1
 fi
 
-echo puppet agent -t $ENVIRONMENT $SERVER $DOIT
-exec puppet agent -t $ENVIRONMENT $SERVER $DOIT
+echo puppet agent -t $EXTRA $DOIT
+exec puppet agent -t $EXTRA $DOIT
 
 #########################################################################
 ### Documentation #######################################################
@@ -85,6 +88,8 @@ puppet-dryrun --environment I<environment>
 
 puppet-dryrun --server I<server>
 
+puppet-dryrun --tags I<tags>
+
 puppet-dryrun --environment I<environment> --doit
 
 =head1 DESCRIPTION
@@ -106,6 +111,10 @@ Run against a specific environment.  No default.
 =item B<--server> I<SERVER>
 
 Run against a specific server.  No default.
+
+=item B<--tags> I<TAGS>
+
+Only run the specified tags.  No default (which means 'run everything').
 
 =item B<--help>, B<--man>
 
