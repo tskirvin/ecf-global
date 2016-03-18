@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
 Version:        1.0.4
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -67,6 +67,9 @@ echo "/usr/libexec/ecf-global/yumcache-cache \
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Fri Mar 18 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-1
+- using python2.6 so that RHEL5 can use its yaml
+
 * Fri Mar 18 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-0
 - added 'yumcache' suite
 - 'timeout3' script into /usr/libexec for convenience
