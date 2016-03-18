@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.3
+Version:        1.0.4
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -26,7 +26,10 @@ Globally installed scripts and tools for ECF systems at Fermi Lab.
 %install
 rm -rf $RPM_BUILD_ROOT
 
+rsync -Crlpt ./etc ${RPM_BUILD_ROOT}
+rsync -Crlpt ./opt ${RPM_BUILD_ROOT}
 rsync -Crlpt ./usr ${RPM_BUILD_ROOT}
+rsync -Crlpt ./var ${RPM_BUILD_ROOT}
 
 if [ -d usr/sbin ]; then
     mkdir -p ${RPM_BUILD_ROOT}/usr/share/man/man8
@@ -45,16 +48,30 @@ if [ -d usr/bin ]; then
     done
 fi
 
+%post
+echo "/usr/libexec/ecf-global/yumcache-cache \
+    && /usr/libexec/ecf-global/yumcache-build-from-cache" \
+    | at -M 'now + 5 minutes'
+
 %clean
-# Adding empty clean section per rpmlint.  In this particular case, there is 
+# Adding empty clean section per rpmlint.  In this particular case, there is
 # nothing to clean up as there is no build process
 
 %files
 %attr(-, root, root) %{_sbindir}/*
 %attr(-, root, root) %{_mandir}/*/*
 %attr(-, root, root) %{_libexecdir}/ecf-global/*
+%attr(-, root, root) /etc/ecf-global/*
+%attr(-, root, root) /etc/cron.d/*
+%attr(-, root, root) /var/cache/ecf-global/.placeholder
+%attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Fri Mar 18 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-0
+- added 'yumcache' suite
+- 'timeout3' script into /usr/libexec for convenience
+- post-install script
+
 * Mon Mar 14 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.3-0
 - puppet-dryrun - added 'tags'
 

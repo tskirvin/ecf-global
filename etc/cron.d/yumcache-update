@@ -1,0 +1,5 @@
+# Update the yum cache every day, well after the standard patching time.
+0  8 * * * root /usr/libexec/ecf-global/yumcache-cache | /usr/bin/logger -t yumcache > /dev/null
+
+# Update the databases from the cache every hour.
+15 * * * * root /usr/libexec/ecf-global/yumcache-build-from-cache | /usr/bin/logger -t yumcache > /dev/null

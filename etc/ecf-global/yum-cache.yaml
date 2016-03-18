@@ -1,0 +1,4 @@
+cachedir: /var/cache/ecf-global
+days_extra: 14
+check_cmd: '/usr/bin/yum check-update'
+check_cmd_timeout: 60

@@ -1,0 +1,42 @@
+#!/bin/bash
+# ssi_yumcache_security_to_patch - check_mk check that looks at the number of 
+# packages that need to be updated according to /usr/sbin/yumcache-security, 
+# and reports it up to check_mk accordingly.
+
+##############################################################################
+### Configuration ############################################################
+##############################################################################
+
+NAME=`basename $0`
+SCRIPT=/usr/sbin/yumcache-security
+
+TMP="$(mktemp -d)"
+trap "rm -rf $TMP" EXIT
+
+##############################################################################
+### main () ##################################################################
+##############################################################################
+
+if [[ ! -x $SCRIPT ]]; then
+    echo "3 $NAME - ERROR - $SCRIPT not found"
+    exit 3
+fi
+
+$SCRIPT > $TMP/cache
+
+CRIT=`cat $TMP/cache | grep "^CRIT" | grep -v kernel | wc -l`
+WARN=`cat $TMP/cache | grep "^WARN" | grep -v kernel | wc -l`
+TOTAL=`cat $TMP/cache | grep -v kernel | wc -l`
+
+TEXT=`printf "%d critical, %d warning, %d total" $CRIT $WARN $TOTAL`
+
+if [[ $CRIT -gt 0 ]]; then
+    CODE=2
+elif [[ $WARN -gt 0 ]]; then
+    CODE=1
+else
+    CODE=0
+fi
+
+echo "$CODE $NAME - $TEXT (as per $SCRIPT | grep -v kernel)"
+exit $CODE
