@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
 Version:        1.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -61,12 +61,16 @@ echo "/usr/libexec/ecf-global/yumcache-cache \
 %attr(-, root, root) %{_sbindir}/*
 %attr(-, root, root) %{_mandir}/*/*
 %attr(-, root, root) %{_libexecdir}/ecf-global/*
-%attr(-, root, root) /etc/ecf-global/*
+%attr(-, root, root) %config(noreplace) /etc/ecf-global/*
 %attr(-, root, root) /etc/cron.d/*
 %attr(-, root, root) /var/cache/ecf-global/.placeholder
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Wed Mar 23 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-2
+- cron jobs don't send email anymore
+- .spec file fixes
+
 * Fri Mar 18 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-1
 - using python2.6 so that RHEL5 can use its yaml
 
