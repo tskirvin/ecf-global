@@ -15,3 +15,6 @@ CHECK_CMD_TIMEOUT=`cat $CONFIG | shyaml get-value check_cmd_timeout`
 
 /usr/libexec/ecf-global/timeout3 -t 60 $CHECK_CMD > $OUTDIR/yum-cache.log
 echo "$?" > $OUTDIR/yum-cache.status
+
+cat $OUTDIR/yum-cache.log
+echo "exit code: `cat $OUTDIR/yum-cache.status`"

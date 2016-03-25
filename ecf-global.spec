@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
 Version:        1.0.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -49,9 +49,6 @@ if [ -d usr/bin ]; then
 fi
 
 %post
-echo "/usr/libexec/ecf-global/yumcache-cache \
-    && /usr/libexec/ecf-global/yumcache-build-from-cache" \
-    | at -M 'now + 5 minutes'
 
 %clean
 # Adding empty clean section per rpmlint.  In this particular case, there is
@@ -67,6 +64,11 @@ echo "/usr/libexec/ecf-global/yumcache-cache \
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Wed Mar 23 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-3
+- work on the yumcache-cache cron jobs
+- removing the post script
+- yumcache-cache is no longer silent
+
 * Wed Mar 23 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-2
 - cron jobs don't send email anymore
 - .spec file fixes
