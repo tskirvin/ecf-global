@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.4
-Release:        3%{?dist}
+Version:        1.0.5
+Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -64,6 +64,13 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Mon May 23 2016   Tim Skirvin <tskirvin@fnal.gov>  1.0.5-0
+- ssi_yumcache_security_to_patch - also filter afs/kmod lines
+- yumcache-build-from-cache - use env to find python2.6
+
+* Wed Apr 20 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-4
+- yumcache-build-from-cache - python2.6 runs with usr/bin/env
+
 * Wed Mar 23 2016  Tim Skirvin <tskirvin@fnal.gov>  1.0.4-3
 - work on the yumcache-cache cron jobs
 - removing the post script
