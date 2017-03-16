@@ -9,7 +9,7 @@ fi
 
 OUTDIR=`cat $CONFIG | shyaml get-value cachedir`
 
-DAYS_BASE=`/opt/puppetlabs/bin/facter fef_kernel_variance`
+DAYS_BASE=`/opt/puppetlabs/bin/facter ssi_kernel_variance`
 : ${DAYS_BASE:=60}
 
 DAYS_EXTRA=`cat $CONFIG | shyaml get-value days_extra`
@@ -67,7 +67,7 @@ includes:
 =item status (OK/WARN/CRIT) 
 
 Have we exited our "update window"?  This is (generally) 60 days (pulled from
-the I<fef_kernel_variance> fact) plus 14 days grace (from the config file).
+the I<ssi_kernel_variance> fact) plus 14 days grace (from the config file).
 
 =item days old 
 
