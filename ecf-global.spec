@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.6
+Version:        1.0.8
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -64,6 +64,13 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Tue Sep 19 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.8-0
+- added a '--force' flag to puppet-dryrun
+- dropping SL5 support
+
+* Mon Mar 27 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.7-0
+- change the error codes for ssi_yumcache_security_to_patch 
+
 * Thu Mar 16 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.6-0
 - fef_kernel_expired -> ssi_kernel_expired
 

@@ -29,9 +29,9 @@ TAR_EXCLUDE =
 ##############################################################################
 ## Set your own targets.  Note that these will appear at the top.
 
-all:		rpm-5-nosign rpm-6-nosign rpm-7-nosign rpm-sign
-confirm:	confirm-slf5 confirm-slf6 confirm-slf7
-copy:		copy-slf5 copy-slf6 copy-slf7
+all:		rpm-6-nosign rpm-7-nosign rpm-sign
+confirm:	confirm-slf6 confirm-slf7
+copy:		copy-slf6 copy-slf7
 rpm-sign:	sign-slf6 sign-slf7
-test:		rpm-5-nosign rpm-6-nosign rpm-7-nosign
-deploy:		deploy-5 deploy-6 deploy-7
+test:		rpm-6-nosign rpm-7-nosign
+deploy:		deploy-6 deploy-7

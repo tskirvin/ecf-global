@@ -34,9 +34,9 @@ TOTAL=`cat $TMP/cache \
 TEXT=`printf "%d critical, %d warning, %d total" $CRIT $WARN $TOTAL`
 
 if [[ $CRIT -gt 0 ]]; then
-    CODE=2
-elif [[ $WARN -gt 0 ]]; then
     CODE=1
+elif [[ $WARN -gt 0 ]]; then
+    CODE=0
 else
     CODE=0
 fi

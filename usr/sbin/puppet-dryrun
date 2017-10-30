@@ -16,7 +16,7 @@ EXTRA=""
 ## Parse command-line variables
 TEMP=`/usr/bin/getopt -n "$0" \
     -o hs:e: \
-    --long help,man,doit,environment:,server:,tags: \
+    --long help,man,doit,force,environment:,server:,tags: \
     -- "$@"`
 
 if [ $? != 0 ] ; then
@@ -34,6 +34,11 @@ while true; do
             ;;
         --doit)
             DOIT=""
+            shift
+            ;;
+        --force)
+            EXTRA="${EXTRA} --agent_disabled_lockfile=foo.lock"
+            # DOIT="--noop"
             shift
             ;;
         -e|--environment)
@@ -107,6 +112,11 @@ Do not run with the B<--noop> flag.  Default is to keep the B<--noop>
 =item B<--environment> I<ENVIRONMENT>
 
 Run against a specific environment.  No default.
+
+=item B<--force>
+
+Ignore any existing lockfile, so you can run a dryrun even when the host is
+locked.  Use this sparingly!
 
 =item B<--server> I<SERVER>
 
