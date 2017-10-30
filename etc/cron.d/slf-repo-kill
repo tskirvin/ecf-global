@@ -1,0 +1,8 @@
+SHELL=/bin/bash
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+MAILTO=""
+
+# the repos in slf.repo can confuse puppet, so remove if puppet is installed
+# (defining the same repo twice makes puppet barf)
+15 8 * * *  root    if [ -x /opt/puppetlabs/bin/puppet ]; then rm -f /etc/yum.repos.d/slf.repo; fi
+@reboot     root    if [ -x /opt/puppetlabs/bin/puppet ]; then rm -f /etc/yum.repos.d/slf.repo; fi

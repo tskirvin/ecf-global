@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.8
+Version:        1.0.9
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -64,6 +64,9 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Mon Oct 30 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.9-0
+- /etc/cron.d/slf-repo-kill - remove /etc/yumrepos.d/slf.repo via cron
+
 * Tue Sep 19 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.8-0
 - added a '--force' flag to puppet-dryrun
 - dropping SL5 support
