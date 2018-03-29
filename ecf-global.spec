@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
 Version:        1.0.10
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -64,6 +64,9 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Thu Mar 29 2018   Tim Skirvin <tskirving@fnal.gov> 1.0.10-1
+- ssi_yumcache_security_to_patch - don't skip openafs anymore
+
 * Thu Jan 25 2018   Tim Skirvin <tskirving@fnal.gov> 1.0.10-0
 - ssi_yumcache_security_to_patch - report package counts for graphing
 

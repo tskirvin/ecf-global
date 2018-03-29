@@ -25,11 +25,11 @@ fi
 $SCRIPT > $TMP/cache
 
 CRIT=`cat $TMP/cache  | grep "^CRIT" \
-    | grep -v kernel | grep -v kmod | grep -v openafs | wc -l`
+    | grep -v kernel | grep -v kmod | wc -l`
 WARN=`cat $TMP/cache  | grep "^WARN" \
-    | grep -v kernel | grep -v kmod | grep -v openafs | wc -l`
+    | grep -v kernel | grep -v kmod | wc -l`
 TOTAL=`cat $TMP/cache \
-    | grep -v kernel | grep -v kmod | grep -v openafs | wc -l`
+    | grep -v kernel | grep -v kmod | wc -l`
 
 TEXT=`printf "%d critical, %d warning, %d total" $CRIT $WARN $TOTAL`
 STAT="crit=${CRIT}|warn=${WARN}|total=${TOTAL}"
@@ -42,5 +42,5 @@ else
     CODE=0
 fi
 
-echo "$CODE $NAME $STAT $TEXT (as per $SCRIPT | grep -v kernel|kmod|openafs)"
+echo "$CODE $NAME $STAT $TEXT (as per $SCRIPT | grep -v kernel|kmod)"
 exit $CODE
