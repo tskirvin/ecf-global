@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.10
-Release:        1%{?dist}
+Version:        1.0.11
+Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -64,10 +64,14 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
-* Thu Mar 29 2018   Tim Skirvin <tskirving@fnal.gov> 1.0.10-1
+* Fri Aug 24 2018   Tim Skirvin <tskirvin@fnal.gov> 1.0.11-0
+- yumcache-cache - actually listening to the config file timeout; making
+  this configurable at the command line
+
+* Thu Mar 29 2018   Tim Skirvin <tskirvin@fnal.gov> 1.0.10-1
 - ssi_yumcache_security_to_patch - don't skip openafs anymore
 
-* Thu Jan 25 2018   Tim Skirvin <tskirving@fnal.gov> 1.0.10-0
+* Thu Jan 25 2018   Tim Skirvin <tskirvin@fnal.gov> 1.0.10-0
 - ssi_yumcache_security_to_patch - report package counts for graphing
 
 * Mon Oct 30 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.9-0

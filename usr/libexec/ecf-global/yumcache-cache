@@ -11,9 +11,10 @@ fi
 
 OUTDIR=`cat $CONFIG | shyaml get-value cachedir`
 CHECK_CMD=`cat $CONFIG | shyaml get-value check_cmd`
-CHECK_CMD_TIMEOUT=`cat $CONFIG | shyaml get-value check_cmd_timeout`
+CHECK_CMD_TIMEOUT=${TIMEOUT:-$(cat $CONFIG | shyaml get-value check_cmd_timeout)}
 
-/usr/libexec/ecf-global/timeout3 -t 60 $CHECK_CMD > $OUTDIR/yum-cache.log
+/usr/libexec/ecf-global/timeout3 -t $CHECK_CMD_TIMEOUT $CHECK_CMD \
+    > $OUTDIR/yum-cache.log
 echo "$?" > $OUTDIR/yum-cache.status
 
 cat $OUTDIR/yum-cache.log
