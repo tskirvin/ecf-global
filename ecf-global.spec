@@ -64,6 +64,9 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Wed Oct 03 2018   Tim Skirvin <tskirvin@fnal.gov> 1.0.12-0
+- puppet-dryrun - adding '--trace' option (no actual release)
+
 * Fri Aug 24 2018   Tim Skirvin <tskirvin@fnal.gov> 1.0.11-0
 - yumcache-cache - actually listening to the config file timeout; making
   this configurable at the command line

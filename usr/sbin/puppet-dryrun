@@ -16,7 +16,7 @@ EXTRA=""
 ## Parse command-line variables
 TEMP=`/usr/bin/getopt -n "$0" \
     -o hs:e: \
-    --long help,man,doit,force,environment:,server:,tags: \
+    --long help,man,doit,force,trace,environment:,server:,tags: \
     -- "$@"`
 
 if [ $? != 0 ] ; then
@@ -38,7 +38,6 @@ while true; do
             ;;
         --force)
             EXTRA="${EXTRA} --agent_disabled_lockfile=foo.lock"
-            # DOIT="--noop"
             shift
             ;;
         -e|--environment)
@@ -52,6 +51,10 @@ while true; do
         --tags)
             EXTRA="${EXTRA} --tags $2"
             shift 2
+            ;;
+        --trace)
+            EXTRA="${EXTRA} --evaltrace"
+            shift
             ;;
         --)
             shift
@@ -122,6 +125,10 @@ locked.  Use this sparingly!
 
 Run against a specific server.  No default.
 
+=item B<--trace>
+
+Set B<--evaltrace> on run.  Default off.
+
 =item B<--tags> I<TAGS>
 
 Only run the specified tags.  No default (which means 'run everything').
@@ -138,7 +145,7 @@ Tim Skirvin <tskirvin@fnal.gov>
 
 =head1 LICENSE
 
-Copyright 2014-2016, Fermi National Accelerator Laboratory
+Copyright 2014-2018, Fermi National Accelerator Laboratory
 
 This program is free software; you may redistribute it and/or modify it
 under the same terms as Perl itself.
