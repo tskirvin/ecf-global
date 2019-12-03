@@ -1,0 +1,128 @@
+#!/bin/bash
+
+#########################################################################
+### Configuration #######################################################
+#########################################################################
+
+HOURS=24
+
+#########################################################################
+### main () #############################################################
+#########################################################################
+
+ME=$(klist | grep Default | cut -d: -f2 | cut -d@ -f1 | tr -d ' \n')
+if [[ $ME == "" ]]; then
+    ME="unknown"
+fi
+
+## Parse command-line variables
+TEMP=`/usr/bin/getopt -n "$0" \
+    -o h \
+    --long hours:,help,man,me: \
+    -- "$@"`
+
+if [ $? != 0 ] ; then
+    echo "getopt failed..." >&2 ;
+    exit -1
+fi
+
+eval set -- "$TEMP"
+
+while true; do
+    case "$1" in
+        -h|--help|--man)
+            exec pod2text $0
+            exit 0
+            ;;
+        --me)
+            ME="$2"
+            shift 2
+            ;;
+        --hours)
+            HOURS="$2"
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "unknown argument: $1"
+            exec pod2text $0
+            exit -1
+    esac
+done
+
+TEXT="$@"
+if [[ -z $TEXT ]] ; then
+    exec pod2text $0
+    exit -1
+fi
+
+TIME="now + ${HOURS} hours"
+
+echo puppet agent --disable "$TEXT - $ME - disable until $TIME" | logger -s -t `basename $0`
+/opt/puppetlabs/puppet/bin/puppet agent --disable "$TEXT - $ME - disable until $TIME"
+
+echo "/opt/puppetlabs/puppet/bin/puppet agent --enable" | at $TIME
+
+#########################################################################
+### Documentation #######################################################
+#########################################################################
+
+# Documentation.  Use a hack to hide this from the shell.  Because of the
+# above exit line, this should never be executed.
+
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+puppet-templock - wrapper for 'puppet agent --disable REASON'
+
+=head1 SYNOPSIS
+
+puppet-templock "locking puppet for a day"
+
+puppet-templock --hours 4 "locking puppet for 4 hours"
+
+puppet-temlock --me USERNAME "locking puppet for a day by a given name"
+
+=head1 DESCRIPTION
+
+puppet-templock locks puppet with a reason, and sets up an at job to
+re-enable it after 24 hours (customizable).
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--me> I<USERNAME>
+
+By default we'll try to get information about who you are from your
+kerberos credentials.  Failing that, it's 'unknown'.  This allows an
+override.
+
+=item B<--hours> I<HOURS>
+
+Unlock after how many hours?  Default is 24.  
+
+=item B<--help>, B<--man>
+
+Print this help page.
+
+=back
+
+=head1 AUTHOR
+
+Tim Skirvin <tskirvin@fnal.gov>
+
+=head1 LICENSE
+
+Copyright 2019-, Fermi National Accelerator Laboratory
+
+This program is free software; you may redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
+__END_OF_DOCS__

@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.11
+Version:        1.0.15
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -9,8 +9,8 @@ License:        Artistic 2.0
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-BuildRequires:  rsync
-Requires:       python-simplejson
+BuildRequires:  rsync perl-podlators
+Requires:       python-simplejson shyaml
 
 Source:         ecf-global-%{version}-%{release}.tar.gz
 
@@ -64,6 +64,21 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Tue Dec  3 2019   Tim Skirvin <tskirvin@fnal.gov> 1.0.15-0
+- adding CentOS 8 support (mostly .spec file changes)t diff
+- yumcache-build-from-cache - now invokes python2
+
+* Wed Sep 25 2019   Tim Skirvin <tskirvin@fnal.gov> 1.0.14-0
+- yumcache-build-from-cache - removing python2.6 reference, python
+  formatting tweaks to match the linter
+- /usr/sbin/puppet-templock - invokes the two libexec yumcache scripts
+
+* Tue Jun 18 2019   Tim Skirvin <tskirvin@fnal.gov> 1.0.13-1
+- puppet-templock - typo bug fixes
+
+* Tue Jun 18 2019   Tim Skirvin <tskirvin@fnal.gov> 1.0.13-0
+- puppet-templock - lock puppet with a reason, unlock with at in 24 hours
+
 * Wed Oct 03 2018   Tim Skirvin <tskirvin@fnal.gov> 1.0.12-0
 - puppet-dryrun - adding '--trace' option (no actual release)
 

@@ -1,0 +1,49 @@
+#!/bin/bash
+# wrapper around the libexec yumcache-cache and yumcache-build-from-cache
+# scripts, because I use both both all the time
+
+/usr/libexec/ecf-global/yumcache-cache
+/usr/libexec/ecf-global/yumcache-build-from-cache
+
+exit $?
+
+###############################################################################
+### Documentation #############################################################
+###############################################################################
+
+# Documentation.  Use a hack to hide this from the shell.  Because of the
+# above exit line, this should never be executed.
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+yumcache-update - update the yumcache
+
+=head1 SYNOPSIS
+
+B<yumcache-update>
+
+=head1 DESCRIPTION
+
+This is a simple wrapper around F</usr/libexec/ecf-global/yumcache-cache> and
+F</usr/libexec/ecf-global/yumcache-build-from-cache>.  We have to run these
+commands fairly often.
+
+=head1 SEE ALSO
+
+B</usr/libexec/ecf-global/*>
+
+=head1 AUTHOR
+
+Tim Skirvin <tskirvin@fnal.gov>
+
+=head1 LICENSE
+
+Copyright 2019, Fermi National Accelerator Laboratory
+
+This program is free software; you may redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+__END_OF_DOCS__
