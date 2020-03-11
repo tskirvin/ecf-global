@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.15
+Version:        1.0.16
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -74,6 +74,9 @@ fi
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Wed Mar 11 2020   Tim Skirvin <tskirvin@fnal.gov> 1.0.16-0
+- ssi_check_yumcache_to_patch - removind underscores to make check_mk happy
+
 * Tue Dec  3 2019   Tim Skirvin <tskirvin@fnal.gov> 1.0.15-0
 - adding CentOS 8 support (mostly .spec file changes)t diff
 - yumcache-build-from-cache - now invokes python2
