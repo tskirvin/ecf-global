@@ -42,5 +42,5 @@ else
     CODE=0
 fi
 
-echo "$CODE $NAME $STAT $TEXT (as per $SCRIPT | grep -v kernel|kmod)"
+echo "$CODE $NAME $STAT $TEXT (as per $SCRIPT, excluding kernels)"
 exit $CODE

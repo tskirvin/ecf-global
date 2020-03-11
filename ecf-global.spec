@@ -10,7 +10,17 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 BuildRequires:  rsync perl-podlators
+%if 0%{?rhel} == 6
 Requires:       python-simplejson shyaml
+%endif
+
+%if 0%{?rhel} == 7
+Requires:       python-simplejson shyaml
+%endif
+
+%if 0%{?rhel} == 8
+Requires:       python2-simplejson shyaml
+%endif
 
 Source:         ecf-global-%{version}-%{release}.tar.gz
 
