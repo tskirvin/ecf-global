@@ -1,0 +1,62 @@
+#!/bin/bash
+# rebuild the rpm database
+
+#########################################################################
+### main () #############################################################
+#########################################################################
+
+for i in rpmdb yum yum-cron rpm rpmq puppet ; do
+    killall -9 $i
+done
+
+echo "removing old rpm database"
+rm -rf /var/lib/rpm/__db*
+
+echo "cleaning yum database"
+nice -n -20 /usr/bin/yum clean all
+
+echo "rebuilding rpm database"
+nice -n -20 /usr/bin/rpm --rebuilddb
+
+echo "updating yum cache"
+nice -n -20 /usr/sbin/yumcache-update
+
+echo "re-running puppet"
+nice -n -20 /opt/puppetlabs/bin/puppet agent -t
+
+#########################################################################
+### Documentation #######################################################
+#########################################################################
+
+# Documentation.  Use a hack to hide this from the shell.  Because of the
+# above exit line, this should never be executed.
+
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+rpmdb-rebuild - rebuild the rpm database
+
+=head1 SYNOPSIS
+
+rpmdb-rebuild
+
+=head1 DESCRIPTION
+
+Kills yum/rpmdb/puppet processes, deletes the old rpm database, rebuilds it,
+updates the yum cache, re-runs puppet
+
+=head1 AUTHOR
+
+Tim Skirvin <tskirvin@fnal.gov>
+
+=head1 LICENSE
+
+Copyright 2014-2020, Fermi National Accelerator Laboratory
+
+This program is free software; you may redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
+__END_OF_DOCS__
