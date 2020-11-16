@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.0.17
+Version:        1.1.0
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -10,22 +10,29 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
 BuildRequires:  rsync perl-podlators
-%if 0%{?rhel} == 6
-Requires:       python-simplejson shyaml
-%endif
+
+Requires:   vim-enhanced emacs nedit
+Requires:   iptraf nmap stunnel
+Requires:   ksh zsh tcsh
+Requires:   mutt screen telnet nfs-utils nc ftp expect ltrace tree strace dstat sysfsutils augeas gdisk ncdu mcelog
+Requires:   curl wget
+Requires:   libsysfs redhat-lsb shyaml
+Requires:   git iotop lshw htop iftop 
+Requires:   fermilab-util_ocsinventory
 
 %if 0%{?rhel} == 7
-Requires:       python-simplejson shyaml
+Requires:   python-simplejson iperf
+Requires:   python36 python36-PyYAML python36-pycurl python36-requests python36-six python36-future
 %endif
 
 %if 0%{?rhel} == 8
-Requires:       python2-simplejson shyaml
+Requires:   python2-simplejson iperf3
 %endif
 
 Source:         ecf-global-%{version}-%{release}.tar.gz
 
 %description
-Globally installed scripts and tools for ECF systems at Fermi Lab.
+Globally installed scripts and tools for ECF/SSI systems at Fermi Lab.
 
 %prep
 %setup -c -n ecf-global -q
@@ -59,6 +66,8 @@ if [ -d usr/bin ]; then
 fi
 
 %post
+# rpmlint wants this non-empty
+mkdir -p /var/cache/ecf-global
 
 %clean
 # Adding empty clean section per rpmlint.  In this particular case, there is
@@ -70,10 +79,13 @@ fi
 %attr(-, root, root) %{_libexecdir}/ecf-global/*
 %attr(-, root, root) %config(noreplace) /etc/ecf-global/*
 %attr(-, root, root) /etc/cron.d/*
-%attr(-, root, root) /var/cache/ecf-global/.placeholder
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Mon Nov 16 2020   Tim Skirvin <tskirvin@fnal.gov> 1.1.0-0
+- adding a lot of packages from p_packages::global in puppet
+- using rpmlintrc to clean up rpmlint errors
+
 * Mon Jul 13 2020   Tim Skirvin <tskirvin@fnal.gov> 1.0.17-0
 - rpmdb-rebuild - new script, taken from the check_mk fix script
 

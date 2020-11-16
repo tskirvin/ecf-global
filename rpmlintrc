@@ -1,0 +1,6 @@
+# This package drops some scripts into /opt and /etc/cron.d, deal with it
+addFilter ("^ecf-global.noarch:.*dir-or-file-in-opt")
+addFilter ("^ecf-global.noarch:.*non-conffile-in-etc /etc/cron.d/")
+
+# This is mostly a meta-rpm, so we need to explicitly list some lib packages
+addFilter ("^ecf-global.noarch:.*explicit-lib-dependency")
