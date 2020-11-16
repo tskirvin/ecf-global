@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.0
+Version:        1.1.1
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -14,11 +14,15 @@ BuildRequires:  rsync perl-podlators
 Requires:   vim-enhanced emacs nedit
 Requires:   iptraf nmap stunnel
 Requires:   ksh zsh tcsh
-Requires:   mutt screen telnet nfs-utils nc ftp expect ltrace tree strace dstat sysfsutils augeas gdisk ncdu mcelog
+Requires:   telnet ftp nc
+Requires:   screen tmux ncdu tree
+Requires:   git
 Requires:   curl wget
-Requires:   libsysfs redhat-lsb shyaml
-Requires:   git iotop lshw htop iftop 
+Requires:   strace ltrace
+Requires:   libsysfs redhat-lsb augeas shyaml nfs-utils
+Requires:   iotop lshw htop iftop dstat mcelog sysfsutils
 Requires:   fermilab-util_ocsinventory
+Requires:   mutt expect gdisk
 
 %if 0%{?rhel} == 7
 Requires:   python-simplejson iperf
@@ -82,6 +86,9 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Mon Nov 16 2020   Tim Skirvin <tskirvin@fnal.gov> 1.1.1-0
+- adding tmux
+
 * Mon Nov 16 2020   Tim Skirvin <tskirvin@fnal.gov> 1.1.0-0
 - adding a lot of packages from p_packages::global in puppet
 - using rpmlintrc to clean up rpmlint errors
