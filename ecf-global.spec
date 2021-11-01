@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.1
+Version:        1.1.2
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -86,6 +86,9 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Thu Oct 28 2021   Tim Skirvin <tskirvin@fnal.gov> 1.1.2-0
+- puppet-pssh - wrapper for puppet to work nicer with pssh
+
 * Mon Nov 16 2020   Tim Skirvin <tskirvin@fnal.gov> 1.1.1-0
 - adding tmux
 
