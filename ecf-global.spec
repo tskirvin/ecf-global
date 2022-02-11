@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.2
+Version:        1.1.3
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -11,18 +11,23 @@ BuildArch:      noarch
 
 BuildRequires:  rsync perl-podlators
 
-Requires:   vim-enhanced emacs nedit
+Requires:   vim-enhanced emacs
 Requires:   iptraf nmap stunnel
 Requires:   ksh zsh tcsh
 Requires:   telnet ftp nc
-Requires:   screen tmux ncdu tree
+Requires:   tmux tree
 Requires:   git
 Requires:   curl wget
 Requires:   strace ltrace
-Requires:   libsysfs redhat-lsb augeas shyaml nfs-utils
-Requires:   iotop lshw htop iftop dstat mcelog sysfsutils
-Requires:   fermilab-util_ocsinventory
+Requires:   libsysfs augeas shyaml nfs-utils
+Requires:   iotop lshw dstat mcelog sysfsutils
 Requires:   mutt expect gdisk
+
+%if 0%{?rhel} <= 8
+Requires:   screen ncdu nedit iftop htop htop redhat-lsb
+# this will become required later
+Requires:   fermilab-util_ocsinventory  
+%endif
 
 %if 0%{?rhel} == 7
 Requires:   python-simplejson iperf
@@ -86,6 +91,10 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Fri Feb 11 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.3-0
+- CentOS Stream 9 Support (and probably other RHEL 9 clones as well)
+- several rpms are moving out of required on CS9, since we're not ready
+
 * Thu Oct 28 2021   Tim Skirvin <tskirvin@fnal.gov> 1.1.2-0
 - puppet-pssh - wrapper for puppet to work nicer with pssh
 
