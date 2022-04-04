@@ -1,0 +1,49 @@
+#!/bin/bash
+# clean up the '-nodelay' yum repos before running a yum command, and copy
+# them back on exit.
+
+TMPDIR="$(mktemp -d)"
+trap "rsync -at ${TMPDIR}/*.repo /etc/yum.repos.d; rm -rf ${TMPDIR}" EXIT
+
+rsync -at /etc/yum.repos.d/*repo "${TMPDIR}"
+sed -i -e s/-delayed// /etc/yum.repos.d/*repo
+yum "$@"
+
+exit $?
+
+#########################################################################
+### Documentation #######################################################
+#########################################################################
+
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+yum-nodelay - run a yum command with 'nodelay' turned off
+
+=head1 SYNOPSIS
+
+B</usr/sbin/yum-nodelay>
+
+=head1 USAGE
+
+SSI often uses '-delay' yum repos on its yum repos to provide a buffer
+between when an rpm is released and when it's updated.  This is not
+always ideal for security updates.  This script removes the '-delay' part
+of the yum repos, then runs yum with whatever options you already wanted
+to run, then puts the yum repos back.
+
+=head1 AUTHOR
+
+Tim Skirvin <tskirvin@fnal.gov>
+
+=head1 COPYRIGHT
+
+Copyright 2022, Fermi National Accelerator Laboratory
+
+This program is free software; you may redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
+
+__END_OF_DOCS__
