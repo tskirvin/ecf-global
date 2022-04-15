@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.4
+Version:        1.1.5
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -91,7 +91,11 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
-* Mon Apr 04 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.4.-0
+* Mon Apr 15 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.5-0
+- yumcache-build-from-cache - includes newlines in the log files, which
+  were always important and I don't know how it worked to date
+
+* Mon Apr 04 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.4-0
 - yum-nodelay - drops the '-nodelay' from all yum repos, runs yum, cleans up
 
 * Fri Feb 11 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.3-0

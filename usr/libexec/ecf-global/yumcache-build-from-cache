@@ -57,7 +57,7 @@ def load_packages(file):
 def write_packages(file, pkglist):
     f = open(file, 'w')
     for key in sorted(pkglist.keys()):
-        f.write("%s|%s" % (key, datetime.datetime.strftime(pkglist[key], '%Y-%m-%d')))
+        f.write("%s|%s\n" % (key, datetime.datetime.strftime(pkglist[key], '%Y-%m-%d')))
     f.close()
 
 def add_or_update(pkglist, packagename):
