@@ -3,7 +3,8 @@
 # them back on exit.
 
 TMPDIR="$(mktemp -d)"
-trap "rsync -at ${TMPDIR}/*.repo /etc/yum.repos.d; rm -rf ${TMPDIR}" EXIT
+trap "rsync -at ${TMPDIR}/*.repo /etc/yum.repos.d; rm -rf ${TMPDIR}; yum clean
+all" EXIT
 
 rsync -at /etc/yum.repos.d/*repo "${TMPDIR}"
 sed -i -e s/-delayed// /etc/yum.repos.d/*repo

@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.5
+Version:        1.1.6
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -22,11 +22,10 @@ Requires:   strace ltrace
 Requires:   libsysfs augeas shyaml nfs-utils
 Requires:   iotop lshw dstat mcelog sysfsutils
 Requires:   mutt expect gdisk
+Requires:   fermilab-util_ocsinventory
 
 %if 0%{?rhel} <= 8
 Requires:   screen ncdu nedit iftop htop htop redhat-lsb
-# this will become required later
-Requires:   fermilab-util_ocsinventory  
 %endif
 
 %if 0%{?rhel} == 7
@@ -36,6 +35,9 @@ Requires:   python36 python36-PyYAML python36-pycurl python36-requests python36-
 
 %if 0%{?rhel} == 8
 Requires:   python2-simplejson iperf3
+%endif
+
+%if 0%{?rhel} == 9
 %endif
 
 Source:         ecf-global-%{version}-%{release}.tar.gz
@@ -91,6 +93,10 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Thu Apr 21 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.6-0
+- yum-nodelay - run `yum clean all` as part of cleanup
+- fermilab-util_ocsinventory is required for all again, after CS9 release
+
 * Mon Apr 15 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.5-0
 - yumcache-build-from-cache - includes newlines in the log files, which
   were always important and I don't know how it worked to date
@@ -154,7 +160,7 @@ mkdir -p /var/cache/ecf-global
 - dropping SL5 support
 
 * Mon Mar 27 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.7-0
-- change the error codes for ssi_yumcache_security_to_patch 
+- change the error codes for ssi_yumcache_security_to_patch
 
 * Thu Mar 16 2017   Tim Skirvin <tskirvin@fnal.gov>  1.0.6-0
 - fef_kernel_expired -> ssi_kernel_expired
