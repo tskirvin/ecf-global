@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.6
+Version:        1.1.7
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -93,6 +93,9 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Thu Apr 28 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.7-0
+- yum-nodelay - removing a straw newline
+
 * Thu Apr 21 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.6-0
 - yum-nodelay - run `yum clean all` as part of cleanup
 - fermilab-util_ocsinventory is required for all again, after CS9 release
