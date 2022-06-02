@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# Author: Tyler Parsons
+# Description: Displays the packages that fulfill library requirements for binaries in a specific path
+# Creation Date: 04/12/2012
+# Updates: 04/12/2012 - tparsons: Created the initial script
+#
+
+## Parameters
+binaryPath=$1;
+tmpFilePath="/tmp/what_provides_libraries.$$";
+
+## Functions
+helpMenu() {
+    echo " Script Name: $0"
+    echo " Description: Please provide a path of the directory you would like to scan"
+    echo ""
+    echo " Example:"
+    echo "       $0 /bin/"
+    exit;
+}
+
+payload() {
+    #######
+    ####find $binaryPath -perm /u+x,g+x,a+x -xtype f -exec ldd '{}' \;|grep -v "not a dynamic executable"|awk -F " =>" '{print $1}'|sed -r "s/ \(.*\)//;s/\s+//"|sort -u|xargs yum whatprovides|sort -u|grep -E "\.i386|\.noarch|\.x86_64"|awk -F " : " '{print $1}'|xargs yum info |grep -E "^Name"|sed -r "s/Name\s+:\s(.*)/\1/";
+    #######
+
+    binaryPath=$1
+    rm -f $tmpFilePath;
+    echo "Hunting for Executables in: $binaryPath";
+    echo "=================================================";
+    requiredLibs=`find $binaryPath -perm /u+x,g+x,a+x -xtype f -exec ldd '{}' \;|grep -v "not a dynamic executable"|awk -F " =>" '{print $1}'|sed -r "s/ \(.*\)//;s/\s+//"|sort -u`;
+    numberOfLibs=`echo "$requiredLibs"|sed "/^$/d"|wc -l`
+    if [ $numberOfLibs -eq 0 ]; then
+        echo "No dynamic executables found";
+    else
+        for i in $requiredLibs; do
+            yum whatprovides $i 2>/dev/null|grep -E "\.i386|\.noarch|\.i686|\.x86_64"|sort -u|awk -F " : " '{print $1}' >> $tmpFilePath
+        done
+        sort -u $tmpFilePath|xargs yum info |grep -E "^Name"|sed -r "s/Name\s+:\s(.*)/\1/"|sort -u
+    fi
+}
+
+## Body
+case $binaryPath in
+    "help")
+        helpMenu;;
+    "--help")
+        helpMenu;;
+    "-h")
+        helpMenu;;
+    *)
+        if [ -z $binaryPath ] || [ ! -d $binaryPath ]; then
+            helpMenu
+        fi
+        payload $binaryPath;
+        exit;
+    ;;
+esac
+
+
+DOCS=<<__END_OF_DOCS__
+
+=head1 NAME
+
+binary_dependency_finder - no man page, sorry
+
+=cut
+
+___END_OF_DOCS__
