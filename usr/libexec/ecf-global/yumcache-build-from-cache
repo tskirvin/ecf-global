@@ -28,7 +28,7 @@ def config_yaml(config_file):
     global config
 
     try:
-        config = yaml.load(open(config_file, 'r'))
+        config = yaml.load(open(config_file, 'r'), Loader=yaml.BaseLoader)
     except IOError as exc:
         print("file error: %s" % (exc))
         sys.exit(2)

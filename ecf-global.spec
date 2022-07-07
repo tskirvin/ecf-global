@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.8
+Version:        1.1.9
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -94,6 +94,10 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
 
 %changelog
+* Thu Jul  7 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.9-0
+- yumcache-build-from-cache - adding `Loader=yaml.FullLoader` to remove
+  warning
+
 * Thu Jun  2 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.8-0
 - added `binary_dependency_finder`, an old Tyler piece of code
 
