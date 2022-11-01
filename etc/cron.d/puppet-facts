@@ -1,0 +1,8 @@
+SHELL=/bin/bash
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+MAILTO=""
+
+# run a puppet fact upload once a week and on boot, to make sure hosts don't
+# fall out of puppet.
+0 0 * * 6  root    /opt/puppetlabs/bin/puppet facts upload > /dev/null 2>&1
+@reboot    root    /opt/puppetlabs/bin/puppet facts upload > /dev/null 2>&1

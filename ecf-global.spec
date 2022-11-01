@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.9
-Release:        0%{?dist}
+Version:        1.1.10
+Release:        2%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -22,10 +22,12 @@ Requires:   strace ltrace
 Requires:   libsysfs augeas shyaml nfs-utils
 Requires:   iotop lshw dstat mcelog sysfsutils
 Requires:   mutt expect gdisk
-Requires:   fermilab-util_ocsinventory
 
 %if 0%{?rhel} <= 8
 Requires:   screen ncdu nedit iftop htop htop redhat-lsb
+Requires:   fermilab-util_ocsinventory
+%else
+Requires:   fermilab-conf_ocsinventory
 %endif
 
 %if 0%{?rhel} == 7
@@ -34,7 +36,7 @@ Requires:   python36 python36-PyYAML python36-pycurl python36-requests python36-
 %endif
 
 %if 0%{?rhel} == 8
-Requires:   python2-simplejson iperf3
+Requires:   python3-simplejson iperf3
 %endif
 
 %if 0%{?rhel} == 9
@@ -92,8 +94,22 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) %config(noreplace) /etc/ecf-global/*
 %attr(-, root, root) /etc/cron.d/*
 %attr(-, root, root) /opt/ssi/check_mk_agent/lib/local/ssi_yumcache_*
+%attr(-, root, root) /opt/puppetlabs/facter/facts.d/*
 
 %changelog
+* Tue Nov  1 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.10-2
+- specfile fix for EL8 version - python2-simplejson is gone
+
+* Tue Oct 25 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.10-1
+- /opt/puppetlabs/facter/facts.d/puppetlock.sh - reports on puppet lock
+  information
+- /etc/cron.d/puppet-facts - uploads puppet facts to the server on a
+  regular basis, so machines won't fall out of puppet and we can still
+  deal with long-term locked machines
+
+* Tue Oct 18 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.9-1
+- .spec - need a different ocsinventory rpm on CS9 hosts
+
 * Thu Jul  7 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.9-0
 - yumcache-build-from-cache - adding `Loader=yaml.FullLoader` to remove
   warning
