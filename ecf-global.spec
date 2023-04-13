@@ -1,7 +1,7 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.10
-Release:        2%{?dist}
+Version:        1.1.11
+Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
 
@@ -97,6 +97,9 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/puppetlabs/facter/facts.d/*
 
 %changelog
+* Thu Apr 13 2023   Tim Skirvin <tskirvin@fnal.gov> 1.1.11-0
+- puppet-relock
+
 * Tue Nov  1 2022   Tim Skirvin <tskirvin@fnal.gov> 1.1.10-2
 - specfile fix for EL8 version - python2-simplejson is gone
 
