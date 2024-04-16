@@ -1,6 +1,6 @@
 Name:           ecf-global
 Group:          System Environment/Libraries
-Version:        1.1.11
+Version:        1.1.12
 Release:        0%{?dist}
 Summary:        ECF Global RPM
 URL:            https://github.com/tskirvin/ecf-global
@@ -97,6 +97,9 @@ mkdir -p /var/cache/ecf-global
 %attr(-, root, root) /opt/puppetlabs/facter/facts.d/*
 
 %changelog
+* Tue Apr 16 2024   Tim Skirvin <tskirvin@fnal.gov> 1.1.12-0
+- puppet-dryrun - changed to unset srv_record when running --server
+
 * Thu Apr 13 2023   Tim Skirvin <tskirvin@fnal.gov> 1.1.11-0
 - puppet-relock
 
